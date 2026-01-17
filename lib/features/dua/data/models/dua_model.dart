@@ -4,16 +4,27 @@ import '../../domain/entities/dua_entity.dart';
 part 'dua_model.g.dart';
 
 @JsonSerializable(createToJson: true)
-class DuaModel extends DuaEntity {
+class DuaModel {
+  // Properti Model (diperlukan untuk JSON serialization)
+  final int id;
+  final String grup;
+  final String nama;
+  final String ar;
+  final String tr;
+  final String idn;
+  final String tentang;
+  final List<String> tag;
+
   const DuaModel({
-    required super.id,
-    required super.grup,
-    required super.nama,
-    required super.ar,
-    required super.tr,
-    required super.idn,
-    required super.tentang,
-    required super.tag,
+    // 🛑 Ganti 'super.' menjadi 'this.'
+    required this.id,
+    required this.grup,
+    required this.nama,
+    required this.ar,
+    required this.tr,
+    required this.idn,
+    required this.tentang,
+    required this.tag,
   });
 
   factory DuaModel.fromJson(Map<String, dynamic> json) =>
@@ -22,6 +33,15 @@ class DuaModel extends DuaEntity {
   Map<String, dynamic> toJson() => _$DuaModelToJson(this);
 
   DuaEntity toEntity() {
-    return this;
+    return DuaEntity(
+      id: id,
+      grup: grup,
+      nama: nama,
+      ar: ar,
+      tr: tr,
+      idn: idn,
+      tentang: tentang,
+      tag: tag,
+    );
   }
 }

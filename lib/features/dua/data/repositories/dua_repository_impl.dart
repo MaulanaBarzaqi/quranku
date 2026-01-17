@@ -20,11 +20,11 @@ class DuaRepositoryImpl implements DuaRepository {
   Future<Either<Failure, List<DuaEntity>>> getAllDua() async {
     try {
       final localDua = await localDatasource.getCachedAllDua();
-      return Right(localDua);
+      return Right(localDua.map((model) => model.toEntity()).toList());
     } on CacheException {
       try {
         final remoteDua = await remoteDatasource.getAllDua();
-        return Right(remoteDua);
+        return Right(remoteDua.map((model) => model.toEntity()).toList());
       } catch (e) {
         return Left(_mapExceptionToFailure(e as Exception));
       }
@@ -35,7 +35,7 @@ class DuaRepositoryImpl implements DuaRepository {
   Future<Either<Failure, List<DuaEntity>>> search(String query) async {
     try {
       final remoteDua = await remoteDatasource.search(query);
-      return Right(remoteDua);
+      return Right(remoteDua.map((model) => model.toEntity()).toList());
     } catch (e) {
       return Left(_mapExceptionToFailure(e as Exception));
     }
