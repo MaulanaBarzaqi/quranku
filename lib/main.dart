@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:quranku/core/config/config.dart';
+import 'package:quranku/injection.dart';
+import 'package:quranku/quranku_app.dart';
 
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Config.validate();
+  Config.printConfig();
+  await init();
+  runApp(const QurankuApp());
 }
