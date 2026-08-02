@@ -9,6 +9,11 @@ import 'package:quranku/features/doa/domain/usecases/get_available_groups_usecas
 import 'package:quranku/features/doa/domain/usecases/get_available_tags_usecase.dart';
 import 'package:quranku/features/doa/domain/usecases/get_doa_detail_usecase.dart';
 import 'package:quranku/features/doa/domain/usecases/get_doas_usecase.dart';
+import 'package:quranku/features/surat/data/datasources/surat_remote_datasource.dart';
+import 'package:quranku/features/surat/data/repositories/surat_repository_impl.dart';
+import 'package:quranku/features/surat/domain/repositories/surat_repository.dart';
+import 'package:quranku/features/surat/domain/usecases/get_detail_surat_usecase.dart';
+import 'package:quranku/features/surat/domain/usecases/get_surats_usecase.dart';
 
 // service locator
 final sl = GetIt.instance;
@@ -20,14 +25,25 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetDoaDetailUsecase(sl()));
   sl.registerLazySingleton(() => GetAvailableGroupsUsecase(sl()));
   sl.registerLazySingleton(() => GetAvailableTagsUsecase(sl()));
+  sl.registerLazySingleton(() => GetSuratsUsecase(sl()));
+  sl.registerLazySingleton(() => GetDetailSuratUsecase(sl()));
+
   // repositories
   sl.registerLazySingleton<DoaRepository>(
     () => DoaRepositoryImpl(remoteDatasource: sl(), networkInfo: sl()),
   );
+  sl.registerLazySingleton<SuratRepository>(
+    () => SuratRepositoryImpl(remoteDatasource: sl(), networkInfo: sl()),
+  );
+
   // datasources
   sl.registerLazySingleton<DoaRemoteDatasource>(
     () => DoaRemoteDatasourceImpl(dio: sl()),
   );
+  sl.registerLazySingleton<SuratRemoteDatasource>(
+    () => SuratRemoteDatasourceImpl(dio: sl()),
+  );
+
   // platform
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   // external
