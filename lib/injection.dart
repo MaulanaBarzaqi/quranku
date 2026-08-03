@@ -14,6 +14,10 @@ import 'package:quranku/features/surat/data/repositories/surat_repository_impl.d
 import 'package:quranku/features/surat/domain/repositories/surat_repository.dart';
 import 'package:quranku/features/surat/domain/usecases/get_detail_surat_usecase.dart';
 import 'package:quranku/features/surat/domain/usecases/get_surats_usecase.dart';
+import 'package:quranku/features/tafsir/data/datasources/tafsir_remote_datasource.dart';
+import 'package:quranku/features/tafsir/data/repositories/tafsir_repository_impl.dart';
+import 'package:quranku/features/tafsir/domain/repositories/tafsir_repository.dart';
+import 'package:quranku/features/tafsir/domain/usecases/get_tafsir_usecase.dart';
 
 // service locator
 final sl = GetIt.instance;
@@ -27,6 +31,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAvailableTagsUsecase(sl()));
   sl.registerLazySingleton(() => GetSuratsUsecase(sl()));
   sl.registerLazySingleton(() => GetDetailSuratUsecase(sl()));
+  sl.registerLazySingleton(() => GetTafsirUsecase(sl()));
 
   // repositories
   sl.registerLazySingleton<DoaRepository>(
@@ -35,6 +40,9 @@ Future<void> init() async {
   sl.registerLazySingleton<SuratRepository>(
     () => SuratRepositoryImpl(remoteDatasource: sl(), networkInfo: sl()),
   );
+  sl.registerLazySingleton<TafsirRepository>(
+    () => TafsirRepositoryImpl(remoteDatasource: sl(), networkInfo: sl()),
+  );
 
   // datasources
   sl.registerLazySingleton<DoaRemoteDatasource>(
@@ -42,6 +50,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<SuratRemoteDatasource>(
     () => SuratRemoteDatasourceImpl(dio: sl()),
+  );
+  sl.registerLazySingleton<TafsirRemoteDatasource>(
+    () => TafsirRemoteDatasourceImpl(dio: sl()),
   );
 
   // platform
